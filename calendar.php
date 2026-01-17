@@ -121,10 +121,9 @@ while ($row = $result->fetch_assoc()) {
     <a href="?lang=en&month=<?= $month ?>&year=<?= $year ?>"
        class="<?= $lang === 'en' ? 'active' : '' ?>"
        title="English">🇬🇧</a>
-</div>
 
-<div class="current-lang">
-    Aktualny język (cookie): <strong><?= strtoupper($lang) ?></strong>
+    <p class="current-lang">
+        <strong><?= strtoupper($lang) ?></strong></p>
 </div>
 
 
