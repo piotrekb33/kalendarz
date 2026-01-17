@@ -2,8 +2,18 @@
 require "db.php";
 date_default_timezone_set("Europe/Warsaw");
 
+/* ===================== ZAPIS / ODCZYT JĘZYKA Z COOKIE ===================== */
+if (isset($_GET['lang'])) {
+    $lang = $_GET['lang'];
+    setcookie("lang", $lang, time() + 3600*24*30, "/"); // zapis na 30 dni
+} elseif (isset($_COOKIE['lang'])) {
+    $lang = $_COOKIE['lang'];
+} else {
+    $lang = 'pl'; // domyślny język
+}
+
 /* ===================== TŁUMACZENIA ===================== */
-$lang = $_GET['lang'] ?? 'pl';
+
 
 $translations = [
     'pl' => [
