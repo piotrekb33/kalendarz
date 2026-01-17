@@ -137,8 +137,15 @@ for($day=1;$day<=$daysInMonth;$day++){
     $date = sprintf("%04d-%02d-%02d",$year,$month,$day);
     $weekday = ($day + $startDay - 2) % 7; // 0=pon, 6=nd
     $classes = 'day';
+    
     if($weekday>=5) $classes .= ' weekend'; // sobota=5, niedziela=6
     if(isset($events[$date])) $classes .= ' has-event';
+
+    $today = date('Y-m-d');
+    if ($date === $today) {
+    $classes .= ' today';
+    }
+
     echo "<td class='$classes'><strong>$day</strong>";
 
     if(isset($events[$date])){

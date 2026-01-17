@@ -14,6 +14,14 @@ td.day { background:#fff; }
 td.day.weekend { background:#f0f0f0; }       /* weekend jasnoszary */
 td.day.has-event { background:#d0ebff; }    /* dzień z wydarzeniem jasnoniebieski */
 td.day.weekend.has-event { background:#a8d0ff;} /* weekend z wydarzeniem trochę ciemniejszy niebieski */
+td.day.today {
+    border: 2px solid #e74c3c;
+    background: #ffecec !important;
+}
+
+td.day.today strong {
+    color: #e74c3c;
+}
 
 
 
