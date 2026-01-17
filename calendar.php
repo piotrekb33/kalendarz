@@ -123,6 +123,11 @@ while ($row = $result->fetch_assoc()) {
        title="English">🇬🇧</a>
 </div>
 
+<div class="current-lang">
+    Aktualny język (cookie): <strong><?= strtoupper($lang) ?></strong>
+</div>
+
+
 <h2><?= $months[$lang][$month] . " " . $year ?></h2>
 
 <!-- NAWIGACJA -->
