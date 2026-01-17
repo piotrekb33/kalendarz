@@ -1,0 +1,69 @@
+body { 
+    font-family: Arial, sans-serif; 
+}
+
+table { 
+    border-collapse: collapse; 
+    width: 100%; 
+    max-width: 900px; 
+}
+
+th, td { 
+    border: 1px solid #ccc; 
+    padding: 8px; 
+    vertical-align: top; 
+}
+
+th { 
+    background: #eee; 
+}
+
+.day { 
+    height: 110px; 
+}
+
+.event { 
+    background: #e7f4e4; 
+    padding: 3px; 
+    margin: 3px 0; 
+    font-size: 12px; 
+}
+
+.add { 
+    font-size: 12px; 
+    display: block; 
+    margin-top: 5px; 
+}
+
+/* ===================== FLAGI JĘZYKÓW ===================== */
+.lang-switch {
+    margin-bottom: 12px;
+}
+
+.lang-switch a {
+    font-size: 28px;
+    margin-right: 12px;
+    text-decoration: none;
+    opacity: 0.5;             /* nieaktywny język lekko przyciemniony */
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.lang-switch a:hover {
+    transform: scale(1.2);
+    opacity: 0.8;
+}
+
+.lang-switch a.active {
+    opacity: 1;                /* aktywny język pełna widoczność */
+    transform: scale(1.25);    /* lekki powiększony */
+    filter: drop-shadow(0 0 4px rgba(0,0,0,0.3)); /* cień dla wyróżnienia */
+}
+
+.current-lang {
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #333;
+}
+.current-lang strong {
+    font-weight: bold;
+}
