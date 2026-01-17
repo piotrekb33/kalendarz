@@ -10,6 +10,13 @@ td .add { display:block; margin-top:5px; font-size:0.8em; text-decoration:none; 
 .lang-switch { text-align:center; margin-bottom:10px; }
 .lang-switch a { text-decoration:none; margin:0 5px; font-size:1.5em; }
 .lang-switch a.active { border-bottom:2px solid #2980b9; }
+td.day { background:#fff; }
+td.day.weekend { background:#f0f0f0; }       /* weekend jasnoszary */
+td.day.has-event { background:#d0ebff; }    /* dzień z wydarzeniem jasnoniebieski */
+td.day.weekend.has-event { background:#a8d0ff;} /* weekend z wydarzeniem trochę ciemniejszy niebieski */
+
+
+
 @media(max-width:600px){
     table.calendar th, table.calendar td { font-size:0.7em; padding:3px; min-height:60px; }
     td .event { font-size:0.7em; }
