@@ -52,7 +52,7 @@ $prevMonth = $month-1; $prevYear=$year; if($prevMonth<1){$prevMonth=12;$prevYear
 $nextMonth = $month+1; $nextYear=$year; if($nextMonth>12){$nextMonth=1;$nextYear++;}
 
 /* ===================== ZAPIS WYDARZENIA ===================== */
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+/*if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $date = $_POST['date'] ?? '';
     $time = $_POST['time'] ?? null;
     $title = trim($_POST['title'] ?? '');
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     header("Location: calendar.php?month=$month&year=$year&lang=$lang");
     exit;
-}
+} */
 
 /* ===================== USUWANIE ===================== */
 if (isset($_GET['delete'])) {
@@ -78,18 +78,46 @@ if (isset($_GET['delete'])) {
 }
 
 /* ===================== EDYCJA ===================== */
-if (isset($_POST['edit_id'])) {
-    $id = (int)$_POST['edit_id'];
+/* ===================== EDYCJA WYDARZENIA ===================== */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_id'])) {
+
+    $id    = (int)$_POST['edit_id'];
     $title = trim($_POST['title'] ?? '');
-    $time = $_POST['time'] ?? null;
-    if ($title) {
-        $stmt = $conn->prepare("UPDATE events SET title=?, event_time=? WHERE id=?");
-        $stmt->bind_param("ssi",$title,$time,$id);
+    $time  = $_POST['time'] ?? null;
+
+    if ($title !== '') {
+        $stmt = $conn->prepare(
+            "UPDATE events SET title = ?, event_time = ? WHERE id = ?"
+        );
+        $stmt->bind_param("ssi", $title, $time, $id);
         $stmt->execute();
     }
+
     header("Location: calendar.php?month=$month&year=$year&lang=$lang");
     exit;
 }
+
+
+/* ===================== DODAWANIE WYDARZENIA ===================== */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['date'])) {
+
+    $date  = $_POST['date'];
+    $title = trim($_POST['title'] ?? '');
+    $time  = $_POST['time'] ?? null;
+
+    if ($date && $title !== '') {
+        $stmt = $conn->prepare(
+            "INSERT INTO events (event_date, event_time, title)
+             VALUES (?, ?, ?)"
+        );
+        $stmt->bind_param("sss", $date, $time, $title);
+        $stmt->execute();
+    }
+
+    header("Location: calendar.php?month=$month&year=$year&lang=$lang");
+    exit;
+}
+
 
 /* ===================== WYDARZENIA ===================== */
 $events = [];

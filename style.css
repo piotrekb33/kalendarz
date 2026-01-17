@@ -3,7 +3,7 @@ h2 { text-align:center; }
 .nav { text-align:center; margin-bottom:10px; }
 table.calendar { width:100%; border-collapse:collapse; }
 table.calendar th, table.calendar td { border:1px solid #ccc; padding:5px; text-align:left; vertical-align:top; min-height:80px; }
-table.calendar th { background:#eee; }
+table.calendar th { background:#c0e3c0; }
 td .event { background:#fffae6; margin:2px 0; padding:2px 4px; border-left:4px solid #f39c12; display:flex; justify-content:space-between; align-items:center; font-size:0.9em; }
 td .event .time { font-weight:bold; margin-right:5px; }
 td .add { display:block; margin-top:5px; font-size:0.8em; text-decoration:none; color:#2980b9; }
@@ -11,7 +11,7 @@ td .add { display:block; margin-top:5px; font-size:0.8em; text-decoration:none; 
 .lang-switch a { text-decoration:none; margin:0 5px; font-size:1.5em; }
 .lang-switch a.active { border-bottom:2px solid #2980b9; }
 td.day { background:#fff; }
-td.day.weekend { background:#f0f0f0; }       /* weekend jasnoszary */
+td.day.weekend { background:#edeff1; }       /* weekend jasnoszary */
 td.day.has-event { background:#d0ebff; }    /* dzień z wydarzeniem jasnoniebieski */
 td.day.weekend.has-event { background:#a8d0ff;} /* weekend z wydarzeniem trochę ciemniejszy niebieski */
 td.day.today {
