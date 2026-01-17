@@ -92,12 +92,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
+/* ===================== USUWANIE WYDARZENIA ===================== */
+if (isset($_GET['delete'])) {
+    $id = (int)$_GET['delete'];
+    $stmt = $conn->prepare("DELETE FROM events WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    header("Location: calendar.php?month=$month&year=$year&lang=$lang");
+    exit;
+}
+
+/* ===================== EDYCJA WYDARZENIA ===================== */
+if (isset($_POST['edit_id'])) {
+    $id = (int)$_POST['edit_id'];
+    $title = trim($_POST['title'] ?? '');
+    if ($title) {
+        $stmt = $conn->prepare("UPDATE events SET title=? WHERE id=?");
+        $stmt->bind_param("si", $title, $id);
+        $stmt->execute();
+    }
+    header("Location: calendar.php?month=$month&year=$year&lang=$lang");
+    exit;
+}
+
+
 /* ===================== WYDARZENIA ===================== */
 $events = [];
-$result = $conn->query("SELECT event_date, title FROM events");
+$result = $conn->query("SELECT id, event_date, title FROM events");
 while ($row = $result->fetch_assoc()) {
-    $events[$row['event_date']][] = $row['title'];
+    $events[$row['event_date']][] = [
+        'id' => $row['id'],
+        'title' => $row['title']
+    ];
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -124,6 +152,7 @@ while ($row = $result->fetch_assoc()) {
 
     <p class="current-lang">
         <strong><?= strtoupper($lang) ?></strong></p>
+    
 </div>
 
 
@@ -154,9 +183,16 @@ for ($day=1; $day<=$daysInMonth; $day++) {
 
     if (isset($events[$date])) {
         foreach ($events[$date] as $e) {
-            echo "<div class='event'>".htmlspecialchars($e)."</div>";
+            $event_id = $e['id'];
+            $event_title = htmlspecialchars($e['title']);
+            echo "<div class='event'>
+                    $event_title
+                    <a href='?edit=$event_id&month=$month&year=$year&lang=$lang' title='Edytuj'>✏️</a>
+                    <a href='?delete=$event_id&month=$month&year=$year&lang=$lang' title='Usuń' onclick='return confirm(\"Na pewno usunąć?\")'>🗑️</a>
+                </div>";
         }
     }
+
 
     echo "<a class='add' href='?add=$date&month=$month&year=$year&lang=$lang'>➕ {$t['add']}</a>";
     echo "</td>";
@@ -174,6 +210,24 @@ for ($day=1; $day<=$daysInMonth; $day++) {
     <button><?= $t['save'] ?></button>
 </form>
 <?php endif; ?>
+
+<?php
+if (isset($_GET['edit'])):
+    $edit_id = (int)$_GET['edit'];
+    $stmt = $conn->prepare("SELECT title FROM events WHERE id=?");
+    $stmt->bind_param("i", $edit_id);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $row = $res->fetch_assoc();
+?>
+<h3>Edytuj wydarzenie</h3>
+<form method="post">
+    <input type="hidden" name="edit_id" value="<?= $edit_id ?>">
+    <input type="text" name="title" value="<?= htmlspecialchars($row['title']) ?>" required>
+    <button>Zapisz</button>
+</form>
+<?php endif; ?>
+
 
 </body>
 </html>
