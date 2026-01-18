@@ -194,11 +194,12 @@ for($day=1;$day<=$daysInMonth;$day++){
     // Wyświetl formularz dodawania, jeśli kliknięto Dodaj dla tego dnia
     if (isset($_GET['add']) && $_GET['add'] === $date) {
         echo "<form method='post' class='add-form' style='margin-top:5px;'>
-            <input type='hidden' name='date' value='" . htmlspecialchars($date) . "'>
-            <input type='time' name='time' required>
-            <input type='text' name='title' placeholder='{$t['event_title']}' required>
-            <button type='submit'>{$t['save']}</button>
-        </form>";
+        <input type='hidden' name='date' value='" . htmlspecialchars($date) . "'>
+        <input type='time' name='time' required>
+        <input type='text' name='title' placeholder='{$t['event_title']}' required>
+        <button type='submit'>{$t['save']}</button>
+        <button type='button' onclick=\"window.location.href='calendar.php?month=$month&year=$year&lang=$lang'\">" . ($lang === 'pl' ? 'Anuluj' : 'Cancel') . "</button>
+    </form>";
     }
     echo "</td>";
 }
