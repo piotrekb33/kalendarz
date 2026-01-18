@@ -77,10 +77,9 @@ if (isset($_GET['delete'])) {
     exit;
 }
 
-/* ===================== EDYCJA ===================== */
-/* ===================== EDYCJA WYDARZENIA ===================== */
-/*if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_id'])) {
 
+// ===================== EDYCJA WYDARZENIA =====================
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_id'])) {
     $id    = (int)$_POST['edit_id'];
     $title = trim($_POST['title'] ?? '');
     $time  = $_POST['time'] ?? null;
@@ -96,7 +95,6 @@ if (isset($_GET['delete'])) {
     header("Location: calendar.php?month=$month&year=$year&lang=$lang");
     exit;
 }
-*/
 
 /* ===================== DODAWANIE WYDARZENIA ===================== */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['date'])) {
@@ -222,29 +220,8 @@ for($day=1;$day<=$daysInMonth;$day++){
 
 
 
-<script>
-function saveEdit() {
-    const id    = document.getElementById('edit_id').value;
-    const title = document.getElementById('edit_title').value;
-    const time  = document.getElementById('edit_time').value;
 
-    fetch('edit_event.php', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body:
-            'edit_id=' + encodeURIComponent(id) +
-            '&title=' + encodeURIComponent(title) +
-            '&time=' + encodeURIComponent(time)
-    })
-    .then(res => res.text())
-    .then(data => {
-        document.getElementById('editStatus').innerHTML = data;
 
-        // odśwież widok po zapisie
-        setTimeout(() => location.reload(), 800);
-    });
-}
-</script>
 
 
 <script>
