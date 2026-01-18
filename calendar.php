@@ -79,7 +79,7 @@ if (isset($_GET['delete'])) {
 
 /* ===================== EDYCJA ===================== */
 /* ===================== EDYCJA WYDARZENIA ===================== */
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_id'])) {
+/*if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_id'])) {
 
     $id    = (int)$_POST['edit_id'];
     $title = trim($_POST['title'] ?? '');
@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_id'])) {
     header("Location: calendar.php?month=$month&year=$year&lang=$lang");
     exit;
 }
-
+*/
 
 /* ===================== DODAWANIE WYDARZENIA ===================== */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['date'])) {
@@ -139,6 +139,8 @@ $startDay = date('N',$firstDay);
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+
 
 <div class="lang-switch">
     <a href="?lang=pl&month=<?= $month ?>&year=<?= $year ?>" class="<?= $lang==='pl'?'active':'' ?>">🇵🇱</a>
@@ -188,21 +190,23 @@ for($day=1;$day<=$daysInMonth;$day++){
                 </div>";
         }
     }
-    echo "<a class='add' href='?add=$date&month=$month&year=$year&lang=$lang'>➕ {$t['add']}</a></td>";
+    echo "<a class='add' href='?add=$date&month=$month&year=$year&lang=$lang'>➕ {$t['add']}</a>";
+    // Wyświetl formularz dodawania, jeśli kliknięto Dodaj dla tego dnia
+    if (isset($_GET['add']) && $_GET['add'] === $date) {
+        echo "<form method='post' class='add-form' style='margin-top:5px;'>
+            <input type='hidden' name='date' value='" . htmlspecialchars($date) . "'>
+            <input type='time' name='time' required>
+            <input type='text' name='title' placeholder='{$t['event_title']}' required>
+            <button type='submit'>{$t['save']}</button>
+        </form>";
+    }
+    echo "</td>";
 }
 ?>
 </tr>
 </table>
 
-<?php if(isset($_GET['add'])): ?>
-<h3><?= $t['add_event'] ?> (<?= htmlspecialchars($_GET['add']) ?>)</h3>
-<form method="post">
-<input type="hidden" name="date" value="<?= htmlspecialchars($_GET['add']) ?>">
-<input type="time" name="time">
-<input type="text" name="title" placeholder="<?= $t['event_title'] ?>" required>
-<button><?= $t['save'] ?></button>
-</form>
-<?php endif; ?>
+
 
 <?php
 if(isset($_GET['edit'])):
@@ -214,13 +218,62 @@ if(isset($_GET['edit'])):
     $row = $res->fetch_assoc();
 ?>
 <h3><?= $t['edit_event'] ?></h3>
-<form method="post">
+<form id="editForm">
+    <input type="hidden" id="edit_id" value="<?= $edit_id ?>">
+
+    <input type="time" id="edit_time"
+           value="<?= htmlspecialchars($row['event_time']) ?>">
+
+    <input type="text" id="edit_title"
+           value="<?= htmlspecialchars($row['title']) ?>" required>
+
+    <button type="button" onclick="saveEdit()"><?= $t['save'] ?></button>
+</form>
+
+<div id="editStatus"></div>
+
+<?php endif; ?>
+<!--<form method="post">
 <input type="hidden" name="edit_id" value="<?= $edit_id ?>">
 <input type="time" name="time" value="<?= htmlspecialchars($row['event_time']) ?>">
 <input type="text" name="title" value="<?= htmlspecialchars($row['title']) ?>" required>
-<button><?= $t['save'] ?></button>
-</form>
-<?php endif; ?>
+<button></*?= $t['save'] ?></button>
+</form>-->
+<?php /*endif;*/ ?>
+
+
+<script>
+function saveEdit() {
+    const id    = document.getElementById('edit_id').value;
+    const title = document.getElementById('edit_title').value;
+    const time  = document.getElementById('edit_time').value;
+
+    fetch('edit_event.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body:
+            'edit_id=' + encodeURIComponent(id) +
+            '&title=' + encodeURIComponent(title) +
+            '&time=' + encodeURIComponent(time)
+    })
+    .then(res => res.text())
+    .then(data => {
+        document.getElementById('editStatus').innerHTML = data;
+
+        // odśwież widok po zapisie
+        setTimeout(() => location.reload(), 800);
+    });
+}
+</script>
+
+
+<script>
+console.log("JS działa!");
+function saveEdit() {
+    console.log("Funkcja saveEdit wywołana");
+}
+</script>
+
 
 </body>
 </html>
