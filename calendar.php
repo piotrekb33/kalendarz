@@ -244,7 +244,13 @@ function saveEditAjax(form, eid) {
     .then(msg => {
         statusSpan.textContent = msg;
         if (msg.includes('✅')) {
-            setTimeout(() => location.reload(), 800);
+            setTimeout(() => {
+                statusSpan.textContent = '';
+                // Usuń ?edit=... z URL i przeładuj
+                const url = new URL(window.location.href);
+                url.searchParams.delete('edit');
+                window.location.href = url.toString();
+            }, 3000);
         }
     })
     .catch(() => {
@@ -268,7 +274,13 @@ function addEventAjax(form) {
         var m = msg.match(/✅|❌.*/);
         statusSpan.textContent = m ? m[0] : '✅ Dodano';
         if (msg.includes('✅')) {
-            setTimeout(() => location.reload(), 800);
+            setTimeout(() => {
+                statusSpan.textContent = '';
+                // Usuń ?add=... z URL i przeładuj
+                const url = new URL(window.location.href);
+                url.searchParams.delete('add');
+                window.location.href = url.toString();
+            }, 3000);
         }
     })
     .catch(() => {
