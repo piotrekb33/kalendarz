@@ -183,11 +183,21 @@ for($day=1;$day<=$daysInMonth;$day++){
             $event_title = htmlspecialchars($e['title']);
             $event_time = $e['event_time'] ? $e['event_time'] : '';
             $eid = $e['id'];
-            echo "<div class='event'>
-                    <span class='time'>$event_time</span> $event_title
-                    <a href='?edit=$eid&month=$month&year=$year&lang=$lang' title='Edit'>✏️</a>
-                    <a href='?delete=$eid&month=$month&year=$year&lang=$lang' title='Delete' onclick='return confirm(\"Na pewno usunąć?\")'>🗑️</a>
-                </div>";
+            if (isset($_GET['edit']) && $_GET['edit'] == $eid) {
+                echo "<form class='edit-form' method='post' style='margin:5px 0;'>
+                    <input type='hidden' name='edit_id' value='" . $eid . "'>
+                    <input type='time' name='time' value='" . htmlspecialchars($event_time) . "'>
+                    <input type='text' name='title' value='" . htmlspecialchars($event_title) . "' required>
+                    <button type='submit'>{$t['save']}</button>
+                    <button type='button' onclick=\"window.location.href='calendar.php?month=$month&year=$year&lang=$lang'\">" . ($lang === 'pl' ? 'Anuluj' : 'Cancel') . "</button>
+                </form>";
+            } else {
+                echo "<div class='event'>
+                        <span class='time'>$event_time</span> $event_title
+                        <a href='?edit=$eid&month=$month&year=$year&lang=$lang' title='Edit'>✏️</a>
+                        <a href='?delete=$eid&month=$month&year=$year&lang=$lang' title='Delete' onclick='return confirm(\"Na pewno usunąć?\")'>🗑️</a>
+                    </div>";
+            }
         }
     }
     echo "<a class='add' href='?add=$date&month=$month&year=$year&lang=$lang'>➕ {$t['add']}</a>";
@@ -209,38 +219,7 @@ for($day=1;$day<=$daysInMonth;$day++){
 
 
 
-<?php
-if(isset($_GET['edit'])):
-    $edit_id = (int)$_GET['edit'];
-    $stmt = $conn->prepare("SELECT title,event_time FROM events WHERE id=?");
-    $stmt->bind_param("i",$edit_id);
-    $stmt->execute();
-    $res = $stmt->get_result();
-    $row = $res->fetch_assoc();
-?>
-<h3><?= $t['edit_event'] ?></h3>
-<form id="editForm">
-    <input type="hidden" id="edit_id" value="<?= $edit_id ?>">
 
-    <input type="time" id="edit_time"
-           value="<?= htmlspecialchars($row['event_time']) ?>">
-
-    <input type="text" id="edit_title"
-           value="<?= htmlspecialchars($row['title']) ?>" required>
-
-    <button type="button" onclick="saveEdit()"><?= $t['save'] ?></button>
-</form>
-
-<div id="editStatus"></div>
-
-<?php endif; ?>
-<!--<form method="post">
-<input type="hidden" name="edit_id" value="<?= $edit_id ?>">
-<input type="time" name="time" value="<?= htmlspecialchars($row['event_time']) ?>">
-<input type="text" name="title" value="<?= htmlspecialchars($row['title']) ?>" required>
-<button></*?= $t['save'] ?></button>
-</form>-->
-<?php /*endif;*/ ?>
 
 
 <script>
