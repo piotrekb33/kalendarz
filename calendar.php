@@ -90,9 +90,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_id'])) {
         );
         $stmt->bind_param("ssi", $title, $time, $id);
         $stmt->execute();
+        echo "✅ Zapisano zmiany";
+    } else {
+        echo "❌ Błąd danych";
     }
-
-    header("Location: calendar.php?month=$month&year=$year&lang=$lang");
     exit;
 }
 
@@ -110,9 +111,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['date'])) {
         );
         $stmt->bind_param("sss", $date, $time, $title);
         $stmt->execute();
+        echo "✅ Dodano";
+    } else {
+        echo "❌ Błąd danych";
     }
-
-    header("Location: calendar.php?month=$month&year=$year&lang=$lang");
     exit;
 }
 
@@ -182,12 +184,13 @@ for($day=1;$day<=$daysInMonth;$day++){
             $event_time = $e['event_time'] ? $e['event_time'] : '';
             $eid = $e['id'];
             if (isset($_GET['edit']) && $_GET['edit'] == $eid) {
-                echo "<form class='edit-form' method='post' style='margin:5px 0;'>
+                echo "<form class='edit-form' method='post' style='margin:5px 0;' onsubmit='return saveEditAjax(this, $eid);'>
                     <input type='hidden' name='edit_id' value='" . $eid . "'>
                     <input type='time' name='time' value='" . htmlspecialchars($event_time) . "'>
                     <input type='text' name='title' value='" . htmlspecialchars($event_title) . "' required>
                     <button type='submit'>{$t['save']}</button>
                     <button type='button' onclick=\"window.location.href='calendar.php?month=$month&year=$year&lang=$lang'\">" . ($lang === 'pl' ? 'Anuluj' : 'Cancel') . "</button>
+                    <span class='edit-status' id='edit-status-$eid'></span>
                 </form>";
             } else {
                 echo "<div class='event'>
@@ -201,12 +204,13 @@ for($day=1;$day<=$daysInMonth;$day++){
     echo "<a class='add' href='?add=$date&month=$month&year=$year&lang=$lang'>➕ {$t['add']}</a>";
     // Wyświetl formularz dodawania, jeśli kliknięto Dodaj dla tego dnia
     if (isset($_GET['add']) && $_GET['add'] === $date) {
-        echo "<form method='post' class='add-form' style='margin-top:5px;'>
+        echo "<form method='post' class='add-form' style='margin-top:5px;' onsubmit='return addEventAjax(this);'>
         <input type='hidden' name='date' value='" . htmlspecialchars($date) . "'>
         <input type='time' name='time' required>
         <input type='text' name='title' placeholder='{$t['event_title']}' required>
         <button type='submit'>{$t['save']}</button>
         <button type='button' onclick=\"window.location.href='calendar.php?month=$month&year=$year&lang=$lang'\">" . ($lang === 'pl' ? 'Anuluj' : 'Cancel') . "</button>
+        <span class='add-status' id='add-status'></span>
     </form>";
     }
     echo "</td>";
@@ -224,10 +228,53 @@ for($day=1;$day<=$daysInMonth;$day++){
 
 
 
+
+
 <script>
-console.log("JS działa!");
-function saveEdit() {
-    console.log("Funkcja saveEdit wywołana");
+// AJAX: Edycja zdarzenia
+function saveEditAjax(form, eid) {
+    var formData = new FormData(form);
+    var statusSpan = document.getElementById('edit-status-' + eid);
+    statusSpan.textContent = 'Zapisywanie...';
+    fetch('edit_event.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(r => r.text())
+    .then(msg => {
+        statusSpan.textContent = msg;
+        if (msg.includes('✅')) {
+            setTimeout(() => location.reload(), 800);
+        }
+    })
+    .catch(() => {
+        statusSpan.textContent = '❌ Błąd sieci';
+    });
+    return false;
+}
+
+// AJAX: Dodawanie zdarzenia
+function addEventAjax(form) {
+    var formData = new FormData(form);
+    var statusSpan = document.getElementById('add-status');
+    statusSpan.textContent = 'Dodawanie...';
+    fetch('calendar.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(r => r.text())
+    .then(msg => {
+        // Spróbuj wyciągnąć komunikat z odpowiedzi (jeśli jest)
+        var m = msg.match(/✅|❌.*/);
+        statusSpan.textContent = m ? m[0] : '✅ Dodano';
+        if (msg.includes('✅')) {
+            setTimeout(() => location.reload(), 800);
+        }
+    })
+    .catch(() => {
+        statusSpan.textContent = '❌ Błąd sieci';
+    });
+    return false;
 }
 </script>
 
