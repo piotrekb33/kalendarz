@@ -1,39 +1,47 @@
 <?php
 session_start();
-$error = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require __DIR__ . "/db.php";
+require __DIR__ . "/db.php";
 
+$error = '';
+$success = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = trim($_POST['user'] ?? '');
     $pass = (string)($_POST['pass'] ?? '');
+    $pass2 = (string)($_POST['pass2'] ?? '');
 
-    if ($user === '' || $pass === '') {
-        $error = 'Podaj login i hasło';
+    if ($user === '' || $pass === '' || $pass2 === '') {
+        $error = 'Wypełnij wszystkie pola';
+    } elseif ($pass !== $pass2) {
+        $error = 'Hasła się różnią';
+    } elseif (mb_strlen($user) < 3) {
+        $error = 'Login musi mieć min. 3 znaki';
+    } elseif (strlen($pass) < 6) {
+        $error = 'Hasło musi mieć min. 6 znaków';
     } else {
-        // Schemat bazy (Twoja tabela):
-        // - tabela: urzytkownicy
-        // - kolumny: uzytkownika_id, nazwa_urzytkownika, haslo_hash
-        $stmt = $conn->prepare("SELECT uzytkownika_id, nazwa_urzytkownika, haslo_hash FROM urzytkownicy WHERE nazwa_urzytkownika = ? LIMIT 1");
+        $stmt = $conn->prepare("SELECT 1 FROM urzytkownicy WHERE nazwa_urzytkownika = ? LIMIT 1");
         if ($stmt === false) {
-            $error = 'Błąd zapytania (sprawdź czy istnieje tabela urzytkownicy)';
+            $error = 'Błąd zapytania (sprawdź tabelę urzytkownicy)';
         } else {
             $stmt->bind_param("s", $user);
             $stmt->execute();
-            $res = $stmt->get_result();
-            $row = $res ? $res->fetch_assoc() : null;
+            $exists = $stmt->get_result()->fetch_assoc();
 
-            $ok = false;
-            if ($row && !empty($row['haslo_hash'])) {
-                $ok = password_verify($pass, $row['haslo_hash']);
-            }
-
-            if ($ok) {
-                $_SESSION['user'] = $row['nazwa_urzytkownika'];
-                $_SESSION['user_id'] = (int)$row['uzytkownika_id'];
-                header('Location: calendar.php');
-                exit;
+            if ($exists) {
+                $error = 'Taki login już istnieje';
             } else {
-                $error = 'Nieprawidłowy login lub hasło';
+                $hash = password_hash($pass, PASSWORD_DEFAULT);
+                $stmt = $conn->prepare("INSERT INTO urzytkownicy (nazwa_urzytkownika, haslo_hash) VALUES (?, ?)");
+                if ($stmt === false) {
+                    $error = 'Błąd zapisu użytkownika';
+                } else {
+                    $stmt->bind_param("ss", $user, $hash);
+                    if ($stmt->execute()) {
+                        $success = 'Konto utworzone. Możesz się zalogować.';
+                    } else {
+                        $error = 'Nie udało się zapisać użytkownika';
+                    }
+                }
             }
         }
     }
@@ -43,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Logowanie do kalendarza</title>
+    <title>Rejestracja</title>
     <link rel="stylesheet" href="style.css">
     <style>
         body {
@@ -95,20 +103,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-align: center;
         }
         .login-box .error { color:#c00; text-align:center; margin-bottom:10px; width:100%; }
+        .login-box .success { color:#090; text-align:center; margin-bottom:10px; width:100%; }
         .login-box .link { margin-top:10px; font-size:0.95em; }
         a { color:#1976d2; text-decoration:none; }
     </style>
 </head>
 <body>
 <div class="login-box">
-    <h2>Logowanie</h2>
+    <h2>Rejestracja</h2>
     <?php if ($error): ?><div class="error"><?= $error ?></div><?php endif; ?>
+    <?php if ($success): ?><div class="success"><?= $success ?></div><?php endif; ?>
     <form method="post">
-        <input type="text" name="user" placeholder="Login" required autofocus>
-        <input type="password" name="pass" placeholder="Hasło" required>
-        <button type="submit">Zaloguj</button>
+        <input type="text" name="user" placeholder="Login" required autofocus value="<?= htmlspecialchars($user ?? '', ENT_QUOTES, 'UTF-8') ?>">
+        <input type="password" name="pass" placeholder="Hasło (min. 6 znaków)" required>
+        <input type="password" name="pass2" placeholder="Powtórz hasło" required>
+        <button type="submit">Zarejestruj</button>
     </form>
-    <div class="link"><a href="register.php">Nie masz konta? Zarejestruj</a></div>
+    <div class="link"><a href="login.php">Masz konto? Zaloguj</a></div>
 </div>
 </body>
 </html>
