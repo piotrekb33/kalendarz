@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['user'])) {
+    header('Location: login.php');
+    exit;
+}
+
 require "db.php";
 
 
@@ -243,7 +249,7 @@ for($day=1;$day<=$daysInMonth;$day++){
     if($weekday>=5) $classes .= ' weekend'; // sobota=5, niedziela=6
     if(isset($events[$date])) $classes .= ' has-event';
 
-    // Ustal dzisiejszą datę zgodnie z wybraną strefą czasową
+    // Ustal dzisiejsą datę zgodnie z wybraną strefą czasową
     $today = (new DateTime('now', $tz))->format('Y-m-d');
     if ($date === $today) {
     $classes .= ' today';
