@@ -1,6 +1,7 @@
 <?php
 require "db.php";
-date_default_timezone_set("Europe/Warsaw");
+
+
 
 /* ===================== JĘZYK ===================== */
 if (isset($_GET['lang'])) {
@@ -9,7 +10,50 @@ if (isset($_GET['lang'])) {
 } elseif (isset($_COOKIE['lang'])) {
     $lang = $_COOKIE['lang'];
 } else {
-    $lang = 'pl';
+    $lang = 'en';
+}
+
+/* ===================== STREFA CZASOWA ===================== */
+if (isset($_GET['tz'])) {
+    $tz_code = $_GET['tz'];
+    setcookie("tz_code", $tz_code, time() + 3600*24*30, "/");
+} elseif (isset($_COOKIE['tz_code'])) {
+    $tz_code = $_COOKIE['tz_code'];
+} else {
+    $tz_code = 'uk'; // domyślnie UK
+}
+
+
+$translations = [
+    'pl' => [
+        'prev'=>'Poprzedni','next'=>'Następny','add'=>'Dodaj',
+        'add_event'=>'Dodaj wydarzenie','event_title'=>'Opis wydarzenia',
+        'event_time'=>'Godzina (HH:MM)','save'=>'Zapisz','language'=>'Język',
+        'edit_event'=>'Edytuj wydarzenie',
+        'timezone_label'=>'Strefa:',
+        'tz_pl'=>'Polska',
+        'tz_uk'=>'Wielka Brytania',
+    ],
+    'en' => [
+        'prev'=>'Previous','next'=>'Next','add'=>'Add',
+        'add_event'=>'Add event','event_title'=>'Event description',
+        'event_time'=>'Time (HH:MM)','save'=>'Save','language'=>'Language',
+        'edit_event'=>'Edit event',
+        'timezone_label'=>'Timezone:',
+        'tz_pl'=>'Poland',
+        'tz_uk'=>'UK',
+    ]
+];
+
+if (!isset($translations[$lang])) $lang='pl';
+$t = $translations[$lang];
+
+if ($tz_code === 'pl') {
+    $tz = new DateTimeZone('Europe/Warsaw');
+    $tz_label = $t['tz_pl'];
+} else {
+    $tz = new DateTimeZone('Europe/London');
+    $tz_label = $t['tz_uk'];
 }
 
 $translations = [
@@ -17,13 +61,19 @@ $translations = [
         'prev'=>'Poprzedni','next'=>'Następny','add'=>'Dodaj',
         'add_event'=>'Dodaj wydarzenie','event_title'=>'Opis wydarzenia',
         'event_time'=>'Godzina (HH:MM)','save'=>'Zapisz','language'=>'Język',
-        'edit_event'=>'Edytuj wydarzenie'
+        'edit_event'=>'Edytuj wydarzenie',
+        'timezone_label'=>'Strefa:',
+        'tz_pl'=>'Polska',
+        'tz_uk'=>'Wielka Brytania',
     ],
     'en' => [
         'prev'=>'Previous','next'=>'Next','add'=>'Add',
         'add_event'=>'Add event','event_title'=>'Event description',
         'event_time'=>'Time (HH:MM)','save'=>'Save','language'=>'Language',
-        'edit_event'=>'Edit event'
+        'edit_event'=>'Edit event',
+        'timezone_label'=>'Timezone:',
+        'tz_pl'=>'Poland',
+        'tz_uk'=>'UK',
     ]
 ];
 
@@ -142,9 +192,26 @@ $startDay = date('N',$firstDay);
 
 
 
+
 <div class="lang-switch">
-    <a href="?lang=pl&month=<?= $month ?>&year=<?= $year ?>" class="<?= $lang==='pl'?'active':'' ?>">🇵🇱</a>
-    <a href="?lang=en&month=<?= $month ?>&year=<?= $year ?>" class="<?= $lang==='en'?'active':'' ?>">🇬🇧</a>
+    <a href="?lang=pl&month=<?= $month ?>&year=<?= $year ?>" class="<?= $lang==='pl'?'active':'' ?>">PL</a>
+    <a href="?lang=en&month=<?= $month ?>&year=<?= $year ?>" class="<?= $lang==='en'?'active':'' ?>">EN</a>
+</div>
+
+<div class="tz-switch" style="text-align:center; margin-bottom:10px;">
+    <a href="?tz=pl&month=<?= $month ?>&year=<?= $year ?>" class="tz-btn <?= $tz_code==='pl'?'active':'' ?>" title="Polska strefa czasowa">
+        <span class="tz-flag" style="display:inline-block;width:32px;height:32px;vertical-align:middle;">
+            <img src="maps/pl.png" alt="Polska" width="32" height="32" style="display:block;width:32px;height:32px;">
+        </span>
+    </a>
+    <a href="?tz=uk&month=<?= $month ?>&year=<?= $year ?>" class="tz-btn <?= $tz_code==='uk'?'active':'' ?>" title="UK timezone">
+        <span class="tz-flag" style="display:inline-block;width:32px;height:32px;vertical-align:middle;">
+            <img src="maps/uk.png" alt="UK" width="32" height="32" style="display:block;width:32px;height:32px;">
+        </span>
+    </a>
+    <span style="margin-left:10px;font-size:1em;vertical-align:middle;">
+        <?= $t['timezone_label'] ?> <?= $tz_label ?>
+    </span>
 </div>
 
 <h2><?= $months[$lang][$month]." ".$year ?></h2>
@@ -171,7 +238,8 @@ for($day=1;$day<=$daysInMonth;$day++){
     if($weekday>=5) $classes .= ' weekend'; // sobota=5, niedziela=6
     if(isset($events[$date])) $classes .= ' has-event';
 
-    $today = date('Y-m-d');
+    // Ustal dzisiejszą datę zgodnie z wybraną strefą czasową
+    $today = (new DateTime('now', $tz))->format('Y-m-d');
     if ($date === $today) {
     $classes .= ' today';
     }
