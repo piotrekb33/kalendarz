@@ -21,11 +21,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Logowanie do kalendarza</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .login-box { max-width:340px; margin:60px auto; background:#fff; border-radius:10px; box-shadow:0 2px 16px #0001; padding:32px; }
-        .login-box h2 { text-align:center; }
-        .login-box input { width:100%; margin:8px 0; padding:8px; border-radius:5px; border:1px solid #bbb; }
-        .login-box button { width:100%; padding:10px; background:#1976d2; color:#fff; border:none; border-radius:5px; font-size:1.1em; cursor:pointer; }
-        .login-box .error { color:#c00; text-align:center; margin-bottom:10px; }
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #7fffd4;
+            margin: 0;
+        }
+        .login-box {
+            max-width:340px;
+            width:100%;
+            background:#fff;
+            border-radius:10px;
+            box-shadow:0 2px 16px #0001;
+            padding:32px;
+            margin:auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .login-box h2 { text-align:center; width:100%; }
+        .login-box form {
+            width:100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .login-box input {
+            width:90%;
+            margin:8px 0;
+            padding:8px;
+            border-radius:5px;
+            border:1px solid #bbb;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .login-box button {
+            width:90%;
+            padding:10px;
+            background:#1976d2;
+            color:#fff;
+            border:none;
+            border-radius:5px;
+            font-size:1.1em;
+            cursor:pointer;
+            margin-top:12px;
+            text-align: center;
+        }
+        .login-box .error { color:#c00; text-align:center; margin-bottom:10px; width:100%; }
     </style>
 </head>
 <body>
