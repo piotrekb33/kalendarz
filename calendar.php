@@ -199,16 +199,19 @@ $startDay = date('N',$firstDay);
 </div>
 
 <div class="tz-switch" style="text-align:center; margin-bottom:10px;">
-    <a href="?tz=pl&month=<?= $month ?>&year=<?= $year ?>" class="tz-btn <?= $tz_code==='pl'?'active':'' ?>" title="Polska strefa czasowa">
-        <span class="tz-flag" style="display:inline-block;width:32px;height:32px;vertical-align:middle;">
-            <img src="maps/pl.png" alt="Polska" width="32" height="32" style="display:block;width:32px;height:32px;">
-        </span>
-    </a>
-    <a href="?tz=uk&month=<?= $month ?>&year=<?= $year ?>" class="tz-btn <?= $tz_code==='uk'?'active':'' ?>" title="UK timezone">
-        <span class="tz-flag" style="display:inline-block;width:32px;height:32px;vertical-align:middle;">
-            <img src="maps/uk.png" alt="UK" width="32" height="32" style="display:block;width:32px;height:32px;">
-        </span>
-    </a>
+    <?php if ($tz_code === 'pl'): ?>
+        <a href="?tz=uk&month=<?= $month ?>&year=<?= $year ?>" class="tz-btn active" title="Przełącz na UK">
+            <span class="tz-flag" style="display:inline-block;width:32px;height:32px;vertical-align:middle;">
+                <img src="maps/pl.png" alt="Polska" width="32" height="32" style="display:block;width:32px;height:32px;">
+            </span>
+        </a>
+    <?php else: ?>
+        <a href="?tz=pl&month=<?= $month ?>&year=<?= $year ?>" class="tz-btn active" title="Przełącz na Polską strefę">
+            <span class="tz-flag" style="display:inline-block;width:32px;height:32px;vertical-align:middle;">
+                <img src="maps/uk.png" alt="UK" width="32" height="32" style="display:block;width:32px;height:32px;">
+            </span>
+        </a>
+    <?php endif; ?>
     <span style="margin-left:10px;font-size:1em;vertical-align:middle;">
         <?= $t['timezone_label'] ?> <?= $tz_label ?>
     </span>
