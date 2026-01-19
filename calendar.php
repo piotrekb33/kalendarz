@@ -225,6 +225,10 @@ $startDay = date('N',$firstDay);
     </span>
 </div>
 
+<div style="text-align:right; margin-bottom:10px;">
+    <a href="logout.php" style="color:#c00; font-weight:bold; text-decoration:none; padding:6px 16px; border-radius:6px; background:#fff3e0; border:1px solid #ffd600;">Wyloguj</a>
+</div>
+
 <h2><?= $months[$lang][$month]." ".$year ?></h2>
 <div class="nav">
 <a href="?month=<?= $prevMonth ?>&year=<?= $prevYear ?>&lang=<?= $lang ?>">⬅ <?= $t['prev'] ?></a>
