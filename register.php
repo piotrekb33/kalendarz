@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($stmt === false) {
             $error = 'Błąd zapytania (sprawdź tabelę urzytkownicy)';
         } else {
-            $stmt->bind_param("s", $user);
+            $stmt->bind_param("s", $user); // s - string , bind_param - przypisyje wartosc do zapytania w miejsce "?"
             $stmt->execute();
             $exists = $stmt->get_result()->fetch_assoc();
 
