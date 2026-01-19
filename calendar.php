@@ -188,14 +188,32 @@ $startDay = date('N',$firstDay);
 <title>Calendar</title>
 <link rel="stylesheet" href="style.css">
 </head>
+<script>
+// Animacja rozbłysku flagi tylko po zmianie języka
+document.addEventListener('DOMContentLoaded', function() {
+    const lang = new URLSearchParams(window.location.search).get('lang');
+    const prevLang = localStorage.getItem('lastLang');
+    if (lang && prevLang && lang !== prevLang) {
+        setTimeout(() => {
+            const active = document.querySelector('.lang-switch a.active');
+            if (active) {
+                active.classList.add('flash');
+                setTimeout(() => active.classList.remove('flash'), 600);
+            }
+        }, 50);
+    }
+    if (lang) localStorage.setItem('lastLang', lang);
+});
+</script>
+</head>
 <body>
 
 
 
 
 <div class="lang-switch">
-    <a href="?lang=pl&month=<?= $month ?>&year=<?= $year ?>" class="<?= $lang==='pl'?'active':'' ?>">PL</a>
-    <a href="?lang=en&month=<?= $month ?>&year=<?= $year ?>" class="<?= $lang==='en'?'active':'' ?>">EN</a>
+    <a href="?lang=pl&month=<?= $month ?>&year=<?= $year ?>" class="<?= $lang==='pl'?'active':'' ?>">🇵🇱</a>
+    <a href="?lang=en&month=<?= $month ?>&year=<?= $year ?>" class="<?= $lang==='en'?'active':'' ?>">🇬🇧</a>
 </div>
 
 <div class="tz-switch" style="text-align:center; margin-bottom:10px;">

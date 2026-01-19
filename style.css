@@ -1,3 +1,11 @@
+.lang-switch a.active.flash {
+    animation: lang-flash 0.5s cubic-bezier(.4,2,.6,1);
+}
+@keyframes lang-flash {
+    0% { box-shadow: 0 0 0 0 #ffd60088, 0 2px 12px 0 #ffd60055; }
+    50% { box-shadow: 0 0 16px 8px #ffd600cc, 0 2px 12px 0 #ffd60055; background: #fffde7; }
+    100% { box-shadow: 0 2px 12px 0 #ffd60055; background: #fffde7; }
+}
 /* Strefa czasowa - ikony */
 .tz-switch {
     margin-bottom: 10px;
@@ -34,7 +42,17 @@ td .event .time { font-weight:bold; margin-right:5px; }
 td .add { display:block; margin-top:5px; font-size:0.8em; text-decoration:none; color:#2980b9; }
 .lang-switch { text-align:center; margin-bottom:10px; }
 .lang-switch a { text-decoration:none; margin:0 5px; font-size:1.5em; }
-.lang-switch a.active { border-bottom:2px solid #2980b9; }
+.lang-switch a.active {
+    border-bottom:2px solid #ffd600;
+    background: #fffde7;
+    box-shadow: 0 2px 12px 0 #ffd60055;
+    border-radius: 8px;
+    transform: scale(1.18);
+    transition: background 0.2s, box-shadow 0.2s, border-bottom 0.2s, transform 0.2s cubic-bezier(.4,2,.6,1);
+}
+.lang-switch a {
+    transition: background 0.2s, box-shadow 0.2s;
+}
 td.day { background:#fff; }
 td.day.weekend { background:#edeff1; }       /* weekend jasnoszary */
 td.day.has-event { background:#d0ebff; }    /* dzień z wydarzeniem jasnoniebieski */
