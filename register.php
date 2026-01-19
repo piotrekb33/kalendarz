@@ -37,7 +37,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else {
                     $stmt->bind_param("ss", $user, $hash);
                     if ($stmt->execute()) {
-                        $success = 'Konto utworzone. Możesz się zalogować.';
+                        // przypisz domyślne uprawnienie "user" w tabeli uprawnienia
+                        $uzytkownika_id = $conn->insert_id;
+                        $perm = 'user';
+                        $today = date('Y-m-d');
+                        $stmt2 = $conn->prepare("INSERT INTO uprawnienia (uprawnienie, data_dodania, uzytkownika_id) VALUES (?, ?, ?)");
+                        if ($stmt2) {
+                            $stmt2->bind_param("ssi", $perm, $today, $uzytkownika_id);
+                            $stmt2->execute();
+                        }
+
+                        $success = 'Konto utworzone z uprawnieniem user. Możesz się zalogować.';
                     } else {
                         $error = 'Nie udało się zapisać użytkownika';
                     }
