@@ -31,26 +31,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Taki login już istnieje';
             } else {
                 $hash = password_hash($pass, PASSWORD_DEFAULT);
-                $stmt = $conn->prepare("INSERT INTO urzytkownicy (nazwa_urzytkownika, haslo_hash) VALUES (?, ?)");
-                if ($stmt === false) {
-                    $error = 'Błąd zapisu użytkownika';
-                } else {
-                    $stmt->bind_param("ss", $user, $hash);
-                    if ($stmt->execute()) {
-                        // przypisz domyślne uprawnienie "user" w tabeli uprawnienia
-                        $uzytkownika_id = $conn->insert_id;
-                        $perm = 'user';
-                        $today = date('Y-m-d');
-                        $stmt2 = $conn->prepare("INSERT INTO uprawnienia (uprawnienie, data_dodania, uzytkownika_id) VALUES (?, ?, ?)");
-                        if ($stmt2) {
-                            $stmt2->bind_param("ssi", $perm, $today, $uzytkownika_id);
-                            $stmt2->execute();
-                        }
-
-                        $success = 'Konto utworzone z uprawnieniem user. Możesz się zalogować.';
-                    } else {
-                        $error = 'Nie udało się zapisać użytkownika';
+                
+                // Rozpocznij transakcję
+                $conn->begin_transaction();
+                
+                try {
+                    // 1. Dodaj użytkownika
+                    $stmt = $conn->prepare("INSERT INTO urzytkownicy (nazwa_urzytkownika, haslo_hash) VALUES (?, ?)");
+                    if ($stmt === false) {
+                        throw new Exception('Błąd przygotowania zapytania INSERT użytkownika');
                     }
+                    $stmt->bind_param("ss", $user, $hash);
+                    if (!$stmt->execute()) {
+                        throw new Exception('Nie udało się zapisać użytkownika');
+                    }
+                    
+                    // 2. Przypisz domyślne uprawnienie "user"
+                    $uzytkownika_id = $conn->insert_id;
+                    $perm = 'user';
+                    $today = date('Y-m-d');
+                    $stmt2 = $conn->prepare("INSERT INTO uprawnienia (uprawnienie, data_dodania, uzytkownika_id) VALUES (?, ?, ?)");
+                    if ($stmt2 === false) {
+                        throw new Exception('Błąd przygotowania zapytania INSERT uprawnienia');
+                    }
+                    $stmt2->bind_param("ssi", $perm, $today, $uzytkownika_id);
+                    if (!$stmt2->execute()) {
+                        throw new Exception('Nie udało się zapisać uprawnienia');
+                    }
+                    
+                    // Wszystko OK - zatwierdź transakcję
+                    $conn->commit();
+                    $success = 'Konto utworzone z uprawnieniem user. Możesz się zalogować.';
+                    
+                } catch (Exception $e) {
+                    // Błąd - wycofaj transakcję
+                    $conn->rollback();
+                    $error = $e->getMessage();
                 }
             }
         }
