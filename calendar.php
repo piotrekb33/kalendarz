@@ -187,24 +187,8 @@ $startDay = date('N',$firstDay);
 <meta charset="UTF-8">
 <title>Calendar</title>
 <link rel="stylesheet" href="style.css">
-</head>
-<script>
-// Animacja rozbłysku flagi tylko po zmianie języka
-document.addEventListener('DOMContentLoaded', function() {
-    const lang = new URLSearchParams(window.location.search).get('lang');
-    const prevLang = localStorage.getItem('lastLang');
-    if (lang && prevLang && lang !== prevLang) {
-        setTimeout(() => {
-            const active = document.querySelector('.lang-switch a.active');
-            if (active) {
-                active.classList.add('flash');
-                setTimeout(() => active.classList.remove('flash'), 600);
-            }
-        }, 50);
-    }
-    if (lang) localStorage.setItem('lastLang', lang);
-});
-</script>
+
+<script src="javascripts/blysk.js"></script>
 </head>
 <body>
 
@@ -309,7 +293,7 @@ for($day=1;$day<=$daysInMonth;$day++){
 </table>
 
 
-<script src="refajax.js" defer></script>
+<script src="javascripts/refajax.js" defer></script>
 
 </body>
 </html>
