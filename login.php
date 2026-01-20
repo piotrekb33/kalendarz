@@ -1,9 +1,25 @@
 <?php
 session_start();
+require_once __DIR__ . "/db.php";
+require_once __DIR__ . "/User.php";
+
+// Jeśli użytkownik chce się wymuszone wylogować (np. po zmianie uprawnień w bazie)
+if (isset($_GET['logout']) && $_GET['logout'] == '1') {
+    session_destroy();
+    header('Location: login.php');
+    exit;
+}
+
+// Jeśli użytkownik jest już zalogowany, zaktualizuj jego uprawnienia i przekieruj
+if (isset($_SESSION['user']) && isset($_SESSION['user_id'])) {
+    // Zaktualizuj uprawnienia admin w sesji (na wypadek zmiany w bazie)
+    $_SESSION['is_admin'] = User::hasPermission($conn, $_SESSION['user_id'], 'admin');
+    header('Location: calendar.php');
+    exit;
+}
+
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require __DIR__ . "/db.php";
-
     $user = trim($_POST['user'] ?? '');
     $pass = (string)($_POST['pass'] ?? '');
 
@@ -30,6 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($ok) {
                 $_SESSION['user'] = $row['nazwa_urzytkownika'];
                 $_SESSION['user_id'] = (int)$row['uzytkownika_id'];
+                
+                // Sprawdź czy użytkownik ma uprawnienie admin
+                $_SESSION['is_admin'] = User::hasPermission($conn, $_SESSION['user_id'], 'admin');
+                
                 header('Location: calendar.php');
                 exit;
             } else {
@@ -109,6 +129,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit">Zaloguj</button>
     </form>
     <div class="link"><a href="register.php">Nie masz konta? Zarejestruj</a></div>
+    <?php if (isset($_SESSION['user'])): ?>
+        <div class="link" style="margin-top: 10px;">
+            <a href="login.php?logout=1" style="color: #c00;">Wymuszone wylogowanie (jeśli strona jest zablokowana)</a>
+        </div>
+    <?php endif; ?>
 </div>
 </body>
 </html>

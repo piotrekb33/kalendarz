@@ -23,6 +23,16 @@ class User {
         return $result !== null;
     }
 
+    // Metoda statyczna do sprawdzania czy użytkownik ma dane uprawnienie
+    public static function hasPermission(mysqli $conn, $userId, $permission) {
+        $stmt = $conn->prepare("SELECT 1 FROM uprawnienia WHERE uzytkownika_id = ? AND uprawnienie = ? LIMIT 1");
+        if (!$stmt) return false;
+        $stmt->bind_param("is", $userId, $permission);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        return $result !== null;
+    }
+
     // Metoda, która zapisuje użytkownika w bazie
     public function save(mysqli $conn) {
         // Rozpoczynamy transakcję
