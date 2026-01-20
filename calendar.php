@@ -186,6 +186,7 @@ while($row = $result->fetch_assoc()) {
 $firstDay = mktime(0,0,0,$month,1,$year);
 $daysInMonth = date('t',$firstDay);
 $startDay = date('N',$firstDay);
+$isAdmin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'];
 ?>
 <!DOCTYPE html>
 <html lang="<?= $lang ?>">
@@ -226,7 +227,7 @@ $startDay = date('N',$firstDay);
 </div>
 
 <div style="text-align:center; margin-bottom:15px;">
-    <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']): ?>
+    <?php if ($isAdmin): ?>
         <a href="admin_create_user.php" style="color:#1976d2; font-weight:bold; text-decoration:none; padding:6px 16px; border-radius:6px; background:#e3f2fd; border:1px solid #1976d2; margin-right:10px;">🔧 Panel Admin</a>
     <?php endif; ?>
     <a href="logout.php" style="color:#c00; font-weight:bold; text-decoration:none; padding:6px 16px; border-radius:6px; background:#fff3e0; border:1px solid #ffd600;">Wyloguj</a>
@@ -280,16 +281,21 @@ for($day=1;$day<=$daysInMonth;$day++){
                 </form>";
             } else {
                 echo "<div class='event'>
-                        <span class='time'>$event_time</span> $event_title
-                        <a href='?edit=$eid&month=$month&year=$year&lang=$lang' title='Edit'>✏️</a>
-                        <a href='?delete=$eid&month=$month&year=$year&lang=$lang' title='Delete' onclick='return confirm(\"Na pewno usunąć?\")'>🗑️</a>
-                    </div>";
+                        <span class='time'>$event_time</span> $event_title";
+                        if ($isAdmin) {
+
+                        echo "<a href='?edit=$eid&month=$month&year=$year&lang=$lang' title='Edit'>✏️</a>
+                        <a href='?delete=$eid&month=$month&year=$year&lang=$lang' title='Delete' onclick='return confirm(\"Na pewno usunąć?\")'>🗑️</a>";
+                        }
+                echo "</div>";
             }
         }
     }
+    if ($isAdmin) {
     echo "<a class='add' href='?add=$date&month=$month&year=$year&lang=$lang'>➕ {$t['add']}</a>";
+    }
     // Wyświetl formularz dodawania, jeśli kliknięto Dodaj dla tego dnia
-    if (isset($_GET['add']) && $_GET['add'] === $date) {
+    if ($isAdmin && isset($_GET['add']) && $_GET['add'] === $date) {
         echo "<form method='post' class='add-form' style='margin-top:5px;' onsubmit='return addEventAjax(this);'>
         <input type='hidden' name='date' value='" . htmlspecialchars($date) . "'>
         <input type='time' name='time' required>
