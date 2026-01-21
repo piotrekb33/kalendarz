@@ -147,7 +147,8 @@ $isAdmin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'];
 <head>
 <meta charset="UTF-8">
 <title>Calendar</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style/style.css">
+<link rel="stylesheet" href="style/powitanie.css">
 
 <script src="javascripts/blysk.js"></script>
 </head>
@@ -180,17 +181,16 @@ $isAdmin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'];
     </span>
 
 </div>
-<div style="text-align:center; margin-bottom:15px;">
-    <span style="margin-left:10px; font-weight:bold; color:#1976d2; vertical-align:middle;">
-        <p><?= $t['powitanie'] ?> <?= htmlspecialchars($_SESSION['user']) ?> !</p>
-    </span>
+<div class="welcome <?= $lang === 'pl' ? 'lang-pl' : 'lang-en' ?>" style="display: flex; justify-content: center; align-items: center; text-align: center; width: fit-content; margin: 0 auto;">
+    <span class="wave">👋</span>
+    <?= $t['powitanie'] ?> <strong><?= htmlspecialchars($_SESSION['user']) ?></strong>!
 </div>
 
-<div style="text-align:center; margin-bottom:15px;">
+
+<div style="text-align:center; margin-bottom:25px; margin-top:10px;">
     <?php if ($isAdmin): ?>
         <a href="admin_create_user.php" style="color:#1976d2; font-weight:bold; text-decoration:none; padding:6px 16px; border-radius:6px; background:#e3f2fd; border:1px solid #1976d2; margin-right:10px;">🔧 <?= $t['admin_panel'] ?></a>
     <?php endif; ?>
-
     <a href="logout.php" style="color:#c00; font-weight:bold; text-decoration:none; padding:6px 16px; border-radius:6px; background:#fff3e0; border:1px solid #ffd600;"><?= $t['logout'] ?></a>
 </div>
 
@@ -246,7 +246,7 @@ for($day=1;$day<=$daysInMonth;$day++){
                         if ($isAdmin) {
 
                         echo "<a href='?edit=$eid&month=$month&year=$year&lang=$lang' title='Edit'>✏️</a>
-                        <a href='?delete=$eid&month=$month&year=$year&lang=$lang' title='Delete' onclick='return confirm(\"Na pewno usunąć?\")'>🗑️</a>";
+                        <a href='?delete=$eid&month=$month&year=$lang' title='Delete' onclick='return confirm(\"Na pewno usunąć?\")'>🗑️</a>";
                         }
                 echo "</div>";
             }
