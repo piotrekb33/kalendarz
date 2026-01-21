@@ -6,6 +6,7 @@ if (!isset($_SESSION['user'])) {
 }
 
 require "db.php";
+require_once __DIR__ . '/lang.php';
 
 
 
@@ -30,28 +31,7 @@ if (isset($_GET['tz'])) {
 }
 
 
-$translations = [
-    'pl' => [
-        'prev'=>'Poprzedni','next'=>'Następny','add'=>'Dodaj',
-        'add_event'=>'Dodaj wydarzenie','event_title'=>'Opis wydarzenia',
-        'event_time'=>'Godzina (HH:MM)','save'=>'Zapisz','language'=>'Język',
-        'edit_event'=>'Edytuj wydarzenie',
-        'timezone_label'=>'Strefa:',
-        'tz_pl'=>'Polska',
-        'tz_uk'=>'Wielka Brytania',
-        'admin_panel'=>'Panel Administratora',
-    ],
-    'en' => [
-        'prev'=>'Previous','next'=>'Next','add'=>'Add',
-        'add_event'=>'Add event','event_title'=>'Event description',
-        'event_time'=>'Time (HH:MM)','save'=>'Save','language'=>'Language',
-        'edit_event'=>'Edit event',
-        'timezone_label'=>'Timezone:',
-        'tz_pl'=>'Poland',
-        'tz_uk'=>'UK',
-        'admin_panel'=>'Admin Panel',
-    ]
-];
+
 
 if (!isset($translations[$lang])) $lang='pl';
 $t = $translations[$lang];
@@ -69,15 +49,6 @@ if ($tz_code === 'pl') {
 if (!isset($translations[$lang])) $lang='pl';
 $t = $translations[$lang];
 
-/* ===================== DNI / MIESIĄCE ===================== */
-$days = [
-    'pl'=>['Pon','Wto','Śro','Czw','Pią','Sob','Nie'],
-    'en'=>['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
-];
-$months = [
-    'pl'=>[1=>'Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'],
-    'en'=>[1=>'January','February','March','April','May','June','July','August','September','October','November','December']
-];
 
 /* ===================== DATA ===================== */
 $month = isset($_GET['month']) ? (int)$_GET['month'] : (int)date('m');
