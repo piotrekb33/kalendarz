@@ -39,6 +39,7 @@ $translations = [
         'timezone_label'=>'Strefa:',
         'tz_pl'=>'Polska',
         'tz_uk'=>'Wielka Brytania',
+        'admin_panel'=>'Panel Administratora',
     ],
     'en' => [
         'prev'=>'Previous','next'=>'Next','add'=>'Add',
@@ -48,6 +49,7 @@ $translations = [
         'timezone_label'=>'Timezone:',
         'tz_pl'=>'Poland',
         'tz_uk'=>'UK',
+        'admin_panel'=>'Admin Panel',
     ]
 ];
 
@@ -62,26 +64,7 @@ if ($tz_code === 'pl') {
     $tz_label = $t['tz_uk'];
 }
 
-$translations = [
-    'pl' => [
-        'prev'=>'Poprzedni','next'=>'Następny','add'=>'Dodaj',
-        'add_event'=>'Dodaj wydarzenie','event_title'=>'Opis wydarzenia',
-        'event_time'=>'Godzina (HH:MM)','save'=>'Zapisz','language'=>'Język',
-        'edit_event'=>'Edytuj wydarzenie',
-        'timezone_label'=>'Strefa:',
-        'tz_pl'=>'Polska',
-        'tz_uk'=>'Wielka Brytania',
-    ],
-    'en' => [
-        'prev'=>'Previous','next'=>'Next','add'=>'Add',
-        'add_event'=>'Add event','event_title'=>'Event description',
-        'event_time'=>'Time (HH:MM)','save'=>'Save','language'=>'Language',
-        'edit_event'=>'Edit event',
-        'timezone_label'=>'Timezone:',
-        'tz_pl'=>'Poland',
-        'tz_uk'=>'UK',
-    ]
-];
+
 
 if (!isset($translations[$lang])) $lang='pl';
 $t = $translations[$lang];
@@ -228,7 +211,7 @@ $isAdmin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'];
 
 <div style="text-align:center; margin-bottom:15px;">
     <?php if ($isAdmin): ?>
-        <a href="admin_create_user.php" style="color:#1976d2; font-weight:bold; text-decoration:none; padding:6px 16px; border-radius:6px; background:#e3f2fd; border:1px solid #1976d2; margin-right:10px;">🔧 Panel Admin</a>
+        <a href="admin_create_user.php" style="color:#1976d2; font-weight:bold; text-decoration:none; padding:6px 16px; border-radius:6px; background:#e3f2fd; border:1px solid #1976d2; margin-right:10px;">🔧 <?= $t['admin_panel'] ?></a>
     <?php endif; ?>
     <a href="logout.php" style="color:#c00; font-weight:bold; text-decoration:none; padding:6px 16px; border-radius:6px; background:#fff3e0; border:1px solid #ffd600;">Wyloguj</a>
 </div>
