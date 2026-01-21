@@ -18,6 +18,7 @@ $translations = [
         'admin_panel'    => 'Panel Administratora',
         'cancel'         => 'Anuluj',
         'logout'         => 'Wyloguj',
+        'powitanie'      => 'Witaj',
     ],
 
     'en' => [
@@ -36,6 +37,7 @@ $translations = [
         'admin_panel'    => 'Admin Panel',
         'cancel'         => 'Cancel',
         'logout'         => 'Logout',
+        'powitanie'      => 'Welcome',
     ],
 ];
 
