@@ -46,9 +46,6 @@ if ($tz_code === 'pl') {
 
 
 
-if (!isset($translations[$lang])) $lang='pl';
-$t = $translations[$lang];
-
 
 /* ===================== DATA ===================== */
 $month = isset($_GET['month']) ? (int)$_GET['month'] : (int)date('m');
@@ -61,21 +58,8 @@ if ($month>12){$month=1;$year++;}
 $prevMonth = $month-1; $prevYear=$year; if($prevMonth<1){$prevMonth=12;$prevYear--;}
 $nextMonth = $month+1; $nextYear=$year; if($nextMonth>12){$nextMonth=1;$nextYear++;}
 
-/* ===================== ZAPIS WYDARZENIA ===================== */
-/*if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $date = $_POST['date'] ?? '';
-    $time = $_POST['time'] ?? null;
-    $title = trim($_POST['title'] ?? '');
 
-    if ($date && $title) {
-        $stmt = $conn->prepare("INSERT INTO events (event_date, event_time, title) VALUES (?,?,?)");
-        $stmt->bind_param("sss",$date,$time,$title);
-        $stmt->execute();
-    }
 
-    header("Location: calendar.php?month=$month&year=$year&lang=$lang");
-    exit;
-} */
 
 /* ===================== USUWANIE ===================== */
 if (isset($_GET['delete'])) {
@@ -87,7 +71,7 @@ if (isset($_GET['delete'])) {
     exit;
 }
 
-
+/* ===================== POPRAWA I ZAPIS WYDARZENIA ============ */
 // ===================== EDYCJA WYDARZENIA =====================
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_id'])) {
     $id    = (int)$_POST['edit_id'];
