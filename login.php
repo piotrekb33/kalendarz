@@ -14,7 +14,7 @@ if (isset($_GET['logout']) && $_GET['logout'] == '1') {
 if (isset($_SESSION['user']) && isset($_SESSION['user_id'])) {
     // Zaktualizuj uprawnienia admin w sesji (na wypadek zmiany w bazie)
     $_SESSION['is_admin'] = User::hasPermission($conn, $_SESSION['user_id'], 'admin');
-    header('Location: calendar.php');
+    header('Location: Kalendarz/calendar.php');
     exit;
 }
 
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Sprawdź czy użytkownik ma uprawnienie admin
                 $_SESSION['is_admin'] = User::hasPermission($conn, $_SESSION['user_id'], 'admin');
                 
-                header('Location: calendar.php');
+                header('Location: Kalendarz/calendar.php');
                 exit;
             } else {
                 $error = 'Nieprawidłowy login lub hasło';
