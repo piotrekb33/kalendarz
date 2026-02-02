@@ -1,7 +1,14 @@
 <?php
 session_start();
-require __DIR__ . "/db.php";
-require __DIR__ . "/User.php";
+/* ===================== ŚCIEŻKA GŁÓWNA PROJEKTU ===================== */
+$rootDir = dirname(__DIR__); // jeśli ten plik jest w podfolderze
+// albo:
+// $rootDir = __DIR__;        // jeśli jest w katalogu głównym
+//echo $rootDir;
+require $rootDir . "/baza_danych_polaczenie_db_connection/db.php";
+require $rootDir . "/klasy_classes/urzytkownicy_users/User.php";
+
+
 
 // Sprawdź czy użytkownik jest zalogowany
 if (!isset($_SESSION['user']) || !isset($_SESSION['user_id'])) {
@@ -11,7 +18,7 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user_id'])) {
 
 // Sprawdź czy użytkownik ma uprawnienie 'admin'
 if (!User::hasPermission($conn, $_SESSION['user_id'], 'admin')) {
-    header('Location: calendar.php');
+    header('Location: ../Kalendarz/calendar.php');
     exit;
 }
 
@@ -66,109 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Panel Admin - Tworzenie użytkownika</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            min-height: 100vh;
-            background: #f5f5f5;
-            margin: 0;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.1);
-            padding: 32px;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 0.9em;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
-            font-weight: bold;
-        }
-        input[type="text"],
-        input[type="password"],
-        select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 1em;
-        }
-        select {
-            cursor: pointer;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #1976d2;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.1em;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        button:hover {
-            background: #1565c0;
-        }
-        .error {
-            color: #c00;
-            text-align: center;
-            margin-bottom: 15px;
-            padding: 10px;
-            background: #ffebee;
-            border-radius: 5px;
-        }
-        .success {
-            color: #090;
-            text-align: center;
-            margin-bottom: 15px;
-            padding: 10px;
-            background: #e8f5e9;
-            border-radius: 5px;
-        }
-        .links {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .links a {
-            color: #1976d2;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-        .links a:hover {
-            text-decoration: underline;
-        }
-        .info-box {
-            background: #e3f2fd;
-            border-left: 4px solid #1976d2;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
-        .info-box strong {
-            color: #1976d2;
-        }
-    </style>
+    <link rel="stylesheet" href="../style/adminCreateUser.css">
 </head>
 <body>
 <div class="container">
@@ -210,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 
     <div class="links">
-        <a href="calendar.php">← Powrót do kalendarza</a>
+        <a href="../Kalendarz/calendar.php">← Powrót do kalendarza</a>
         <a href="logout.php">Wyloguj</a>
     </div>
 </div>

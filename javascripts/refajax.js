@@ -4,7 +4,7 @@ function saveEditAjax(form, eid) {
     var formData = new FormData(form);
     var statusSpan = document.getElementById('edit-status-' + eid);
     statusSpan.textContent = 'Zapisywanie...';
-    fetch('edit_event.php', {
+        fetch('../Ustawienia_Tools/edit_event.php', { // Poprawiona ścieżka względem calendar.php
         method: 'POST',
         body: formData
     })

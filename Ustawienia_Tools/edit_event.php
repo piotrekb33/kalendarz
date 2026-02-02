@@ -1,5 +1,8 @@
 <?php
-require "db.php";
+$rootDir = dirname(__DIR__); // Ustawienia_Tools folder
+
+require $rootDir . '/baza_danych_polaczenie_db_connection/db.php';
+//echo $rootDir . '/baza_danych_polaczenie_db_connection/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 

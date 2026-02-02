@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user'])) {
-    header('Location: login.php');
+    header('Location: ../logowanie_rejestracja_login_signup/login.php');
     exit;
 }
 
@@ -18,9 +18,24 @@ $rootDir = dirname(__DIR__);
 // Jeśli w podfolderze 'kalendarz/', zmień na '/kalendarz/'
 $basePath = '/kalendarz/'; // <-- dostosuj jeśli folder jest inny
 
+/* ===================== PLIKI WSPÓLNE HTML Scieżki===================== 
+/ na początku linku
+href="/..."
+➡️ liczone od htdocs
+
+nic na początku linku
+bez / na początku
+href="..."
+➡️ liczone od bieżącego folderu
+*/
+/* ===================== PLIKI WSPÓLNE PHP Scieżki=====================*/
+//echo dirname($rootDir)."<br>";
+//echo $rootDir."<br>";
+//echo $basePath."<br>";
+//echo __DIR__."<br>";
 
 /* ===================== PLIKI WSPÓLNE ===================== */
-require $rootDir . '/db.php';
+require $rootDir . '/baza_danych_polaczenie_db_connection/db.php';
 require_once $rootDir . '/Tlumaczenia_Translations/tlumaczenia_translations.php';
 require_once $rootDir . '/Ustawienia_Tools/jezyk_lang.php';
 require_once $rootDir . '/Ustawienia_Tools/strefa_czasowa_time_zone.php';
@@ -69,11 +84,11 @@ require_once $rootDir . '/Ustawienia_Tools/edycja_wpisu_kalendarz_calendar_edit.
 <!-- ===================== PANEL ADMINA I LOGOUT ===================== -->
 <div style="text-align:center; margin-bottom:25px; margin-top:10px;">
     <?php if ($isAdmin): ?>
-        <a href="<?= $basePath ?>admin_create_user.php" style="color:#1976d2;font-weight:bold;text-decoration:none;padding:6px 16px;border-radius:6px;background:#e3f2fd;border:1px solid #1976d2;margin-right:10px;">
+        <a href="../logowanie_rejestracja_login_signup/admin_create_user.php" style="color:#1976d2;font-weight:bold;text-decoration:none;padding:6px 16px;border-radius:6px;background:#e3f2fd;border:1px solid #1976d2;margin-right:10px;">
             🔧 <?= $t['admin_panel'] ?>
         </a>
     <?php endif; ?>
-    <a href="<?= $basePath ?>logout.php" style="color:#c00;font-weight:bold;text-decoration:none;padding:6px 16px;border-radius:6px;background:#fff3e0;border:1px solid #ffd600;">
+    <a href="../logowanie_rejestracja_login_signup/logout.php" style="color:#c00;font-weight:bold;text-decoration:none;padding:6px 16px;border-radius:6px;background:#fff3e0;border:1px solid #ffd600;">
         <?= $t['logout'] ?>
     </a>
 </div>
