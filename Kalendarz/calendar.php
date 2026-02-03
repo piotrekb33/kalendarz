@@ -118,7 +118,6 @@ require_once $rootDir . '/Ustawienia_Tools/edycja_wpisu_kalendarz_calendar_edit.
 <!-- ===================== NAWIGACJA MIESIĘCY ===================== -->
 <div class="nav">
     <a href="<?= q(['month'=>$prevMonth,'year'=>$prevYear]) ?>">⬅ <?= $t['prev'] ?></a>
-    |
     <a href="<?= q(['month'=>$nextMonth,'year'=>$nextYear]) ?>"><?= $t['next'] ?> ➡</a>
 </div>
 
