@@ -2,7 +2,7 @@
 header("Content-Type: text/css");
 header("Cache-Control: no-cache, must-revalidate");
 
-$img = rand(1, 3) . ".jpg";
+$img = rand(1, 13) . ".jpg";
 ?>
 
 body {
@@ -10,4 +10,5 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    background-attachment: fixed;
 }
