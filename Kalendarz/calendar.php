@@ -58,22 +58,24 @@ require_once $rootDir . '/Ustawienia_Tools/edycja_wpisu_kalendarz_calendar_edit.
 <!-- JS -->
 <script src="<?= $basePath ?>javascripts/blysk.js"></script>
 </head>
-<body>
+<body class="calendar-page">
 
 <!-- ===================== ZMIANA JĘZYKA ===================== -->
+ <div class="top-bar">
 <div class="lang-switch">
     <a href="<?= q(['lang'=>'pl']) ?>" class="<?= $lang==='pl'?'active':'' ?>">🇵🇱</a>
     <a href="<?= q(['lang'=>'en']) ?>" class="<?= $lang==='en'?'active':'' ?>">🇬🇧</a>
 </div>
 
 <!-- ===================== ZMIANA STREFY ===================== -->
-<div class="tz-switch" style="text-align:center; margin-bottom:10px;">
+<div class="tz-switch">
     <?php if ($tz_code === 'pl'): ?>
         <a href="<?= q(['tz'=>'uk']) ?>" class="tz-btn active"><img src="<?= $basePath ?>maps/pl.png" alt="Polska" width="32" height="32"></a>
     <?php else: ?>
         <a href="<?= q(['tz'=>'pl']) ?>" class="tz-btn active"><img src="<?= $basePath ?>maps/uk.png"  alt="UK" width="32" height="32"></a>
     <?php endif; ?>
     <span style="margin-left:10px;font-size:1em;"><?= $t['timezone_label'] ?> <?= $tz_label ?></span>
+</div>
 </div>
 
 <!-- ===================== POWITANIE ===================== -->
