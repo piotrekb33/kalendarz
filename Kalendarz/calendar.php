@@ -54,6 +54,7 @@ require_once $rootDir . '/Ustawienia_Tools/edycja_wpisu_kalendarz_calendar_edit.
 <!-- CSS -->
 <link rel="stylesheet" href="<?= $basePath ?>style/style.css">
 <link rel="stylesheet" href="<?= $basePath ?>style/powitanie.css">
+<link rel="stylesheet" href="../style/style.php">
 <!-- JS -->
 <script src="<?= $basePath ?>javascripts/blysk.js"></script>
 </head>

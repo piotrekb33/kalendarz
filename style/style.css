@@ -31,7 +31,7 @@
 .tz-btn .tz-flag {
     transition: filter 0.2s, opacity 0.2s;
 }
-body { font-family: Arial, sans-serif; margin: 20px; background: #81f8c8; }
+body { font-family: Arial, sans-serif; margin: 20px; /*background: #81f8c8;*/ }
 h2 { text-align:center; }
 .nav { text-align:center; margin-bottom:10px; }
 table.calendar { width:100%; border-collapse:collapse; }

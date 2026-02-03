@@ -70,7 +70,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title><?= $translations[$lang]['logowanie'] ?></title>
     <link rel="stylesheet" href="../style/style.css">
+    
     <link rel="stylesheet" href="../style/login.css">
+    <link rel="stylesheet" href="../style/style.php">
 
 </head>
 <body>
