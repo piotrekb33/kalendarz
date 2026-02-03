@@ -63,8 +63,15 @@ require_once $rootDir . '/Ustawienia_Tools/edycja_wpisu_kalendarz_calendar_edit.
 <!-- ===================== ZMIANA JĘZYKA ===================== -->
  <div class="top-bar">
 <div class="lang-switch">
+    <div>
     <a href="<?= q(['lang'=>'pl']) ?>" class="<?= $lang==='pl'?'active':'' ?>">🇵🇱</a>
+    </div>
+
+    
+
+    <div>
     <a href="<?= q(['lang'=>'en']) ?>" class="<?= $lang==='en'?'active':'' ?>">🇬🇧</a>
+    </div>
 </div>
 
 <!-- ===================== ZMIANA STREFY ===================== -->

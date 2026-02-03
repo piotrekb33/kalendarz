@@ -8,7 +8,7 @@
 }
 /* Strefa czasowa - ikony */
 .tz-switch {
-    margin-bottom: 10px;
+    margin-bottom: 0;
     position: relative; /* Kontekst pozycjonowania dla SVG */
     display: inline-flex; /* Dopasowanie do zawartości */
     justify-content: center;
@@ -65,6 +65,9 @@
     top: 15px;
     left: 15px;
     z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 35px;
 }
 .top-bar .lang-switch,
 .top-bar .tz-switch {
@@ -117,7 +120,7 @@ table.calendar th { background:#c0e3c0; }
 td .event { background:#fffae6; margin:2px 0; padding:2px 4px; border-left:4px solid #f39c12; display:flex; justify-content:space-between; align-items:center; font-size:0.9em; }
 td .event .time { font-weight:bold; margin-right:5px; }
 td .add { display:block; margin-top:5px; font-size:0.8em; text-decoration:none; color:#2980b9; }
-.lang-switch { text-align:center; margin-bottom:10px; }
+.lang-switch { text-align:center; margin-bottom:0; display: flex; }
 .lang-switch a { text-decoration:none; margin:0 5px; font-size:1.5em; }
 .lang-switch a.active {
     border-bottom:2px solid #ffd600;
