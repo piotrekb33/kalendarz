@@ -48,9 +48,13 @@
 }
 .rotating-text text {
     font-size: 10px;
-    fill: #333;
-    font-weight: 500;
+    /* fill jest kontrolowany przez animację */
+    font-weight: bold;
     letter-spacing: 2px; /* Lepszy wygląd na okręgu */
+    animation: text-fx 4s linear infinite;
+    stroke: #000;
+    stroke-width: 0.4px;
+    paint-order: stroke;
 }
 @keyframes rotate-text {
     from {
@@ -59,6 +63,13 @@
     to {
         transform: translate(-50%, -50%) rotate(360deg);
     }
+}
+@keyframes text-fx {
+    0%   { fill: #e74c3c; opacity: 1; }   /* Czerwony */
+    25%  { fill: #3498db; opacity: 0.6; } /* Niebieski */
+    50%  { fill: #2ecc71; opacity: 1; }   /* Zielony */
+    75%  { fill: #f1c40f; opacity: 0.6; } /* Żółty */
+    100% { fill: #e74c3c; opacity: 1; }   /* Powrót do czerwonego */
 }
 .top-bar {
     position: fixed;
