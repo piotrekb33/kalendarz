@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title><?= $translations[$lang]['register'] ?></title>
     <link rel="stylesheet" href="../style/style.css">
     <link rel="stylesheet" href="../style/registration.css">
+    <link rel="stylesheet" href="../style/style.php">
 
 </head>
 <body>

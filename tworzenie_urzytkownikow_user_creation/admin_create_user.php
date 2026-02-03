@@ -78,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title><?= $translationstext[$lang]['panel'] ?> - <?= $translationstext[$lang]['user_create'] ?></title>
     <link rel="stylesheet" href="../style/style.css">
     <link rel="stylesheet" href="../style/adminCreateUser.css">
+    <link rel="stylesheet" href="../style/style.php">
 </head>
 <body>
 <div class="container">
