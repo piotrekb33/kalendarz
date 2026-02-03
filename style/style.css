@@ -9,12 +9,16 @@
 /* Strefa czasowa - ikony */
 .tz-switch {
     margin-bottom: 10px;
+    position: relative; /* Kontekst pozycjonowania dla SVG */
+    display: inline-flex; /* Dopasowanie do zawartości */
+    justify-content: center;
+    align-items: center;
 }
 .tz-btn {
     display: inline-block;
     margin: 0 5px;
     border-radius: 50%;
-    padding: 2px 6px;
+    padding: 4px; /* Równe dopełnienie dla koła */
     transition: background 0.2s, box-shadow 0.2s;
     background: none;
     border: none;
@@ -23,6 +27,7 @@
 .tz-btn.active {
     background: #e0f7fa;
     box-shadow: 0 0 0 2px #2980b9;
+    z-index: 2; /* Ikona musi być nad tekstem */
 }
 .tz-btn:not(.active) .tz-flag {
     filter: grayscale(100%) brightness(0.7);
@@ -30,6 +35,30 @@
 }
 .tz-btn .tz-flag {
     transition: filter 0.2s, opacity 0.2s;
+}
+.rotating-text {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: rotate-text 20s linear infinite;
+    pointer-events: none; /* Tekst nie blokuje kliknięcia flagi */
+}
+.rotating-text text {
+    font-size: 10px;
+    fill: #333;
+    font-weight: 500;
+    letter-spacing: 2px; /* Lepszy wygląd na okręgu */
+}
+@keyframes rotate-text {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
 }
 .top-bar {
     position: fixed;

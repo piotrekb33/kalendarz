@@ -74,7 +74,15 @@ require_once $rootDir . '/Ustawienia_Tools/edycja_wpisu_kalendarz_calendar_edit.
     <?php else: ?>
         <a href="<?= q(['tz'=>'pl']) ?>" class="tz-btn active"><img src="<?= $basePath ?>maps/uk.png"  alt="UK" width="32" height="32"></a>
     <?php endif; ?>
-    <span style="margin-left:10px;font-size:1em;"><?= $t['timezone_label'] ?> <?= $tz_label ?></span>
+    <!-- Animowany tekst na okręgu -->
+    <svg class="rotating-text" viewBox="0 0 100 100">
+        <path id="circlePath" fill="none" d="M 50, 50 m -24.75, 0 a 24.75,24.75 0 1,1 49.5,0 a 24.75,24.75 0 1,1 -49.5,0" />
+        <text>
+            <textPath xlink:href="#circlePath">
+                <?= $t['timezone_label'] ?> <?= $tz_label ?>
+            </textPath>
+        </text>
+    </svg>
 </div>
 </div>
 
