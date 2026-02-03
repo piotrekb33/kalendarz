@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="links">
         <a href="../Kalendarz/calendar.php">← <?= $translationstext[$lang]['powrot_do_kalendarza'] ?></a>
-        <a href="logout.php"><?= $translations[$lang]['logout'] ?></a>
+        <a href="../logowanie_rejestracja_login_signup/logout.php"><?= $translations[$lang]['logout'] ?></a>
     </div>
 </div>
 </body>
