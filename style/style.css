@@ -44,6 +44,42 @@
 body.calendar-page {
     padding-top: 100px;
 }
+.welcome-box {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.welcome-message {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.user-actions {
+    display: flex;
+}
+.btn-user-action {
+    font-weight: bold;
+    text-decoration: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    border: 1px solid;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+.admin-link {
+    color: #1976d2;
+    background: #e3f2fd;
+    border-color: #1976d2;
+    margin-right: 10px;
+}
+.logout-link {
+    color: #c00;
+    background: #fff3e0;
+    border-color: #ffd600;
+}
 body { font-family: Arial, sans-serif; margin: 20px; /*background: #81f8c8;*/ }
 h2 { text-align:center; }
 .nav { text-align:center; margin-bottom:10px; }

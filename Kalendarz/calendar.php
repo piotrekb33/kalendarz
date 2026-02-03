@@ -79,21 +79,23 @@ require_once $rootDir . '/Ustawienia_Tools/edycja_wpisu_kalendarz_calendar_edit.
 </div>
 
 <!-- ===================== POWITANIE ===================== -->
-<div class="welcome <?= $lang==='pl'?'lang-pl':'lang-en' ?>" style="display:flex;justify-content:center;align-items:center;text-align:center;width:fit-content;margin:0 auto;">
+ <div class="welcome-box">
+<div class="welcome-message welcome <?= $lang==='pl'?'lang-pl':'lang-en' ?>">
     <span class="wave">👋</span>
     <?= $t['powitanie'] ?> <strong><?= htmlspecialchars($_SESSION['user']) ?></strong>!
 </div>
 
 <!-- ===================== PANEL ADMINA I LOGOUT ===================== -->
-<div style="text-align:center; margin-bottom:25px; margin-top:10px;">
+<div class="user-actions">
     <?php if ($isAdmin): ?>
-        <a href="../tworzenie_urzytkownikow_user_creation/admin_create_user.php" style="color:#1976d2;font-weight:bold;text-decoration:none;padding:6px 16px;border-radius:6px;background:#e3f2fd;border:1px solid #1976d2;margin-right:10px;">
+        <a href="../tworzenie_urzytkownikow_user_creation/admin_create_user.php" class="btn-user-action admin-link">
             🔧 <?= $t['admin_panel'] ?>
         </a>
     <?php endif; ?>
-    <a href="../logowanie_rejestracja_login_signup/logout.php" style="color:#c00;font-weight:bold;text-decoration:none;padding:6px 16px;border-radius:6px;background:#fff3e0;border:1px solid #ffd600;">
+    <a href="../logowanie_rejestracja_login_signup/logout.php" class="btn-user-action logout-link">
         <?= $t['logout'] ?>
     </a>
+</div>
 </div>
 
 <h2><?= $months[$lang][$month]." ".$year ?></h2>
