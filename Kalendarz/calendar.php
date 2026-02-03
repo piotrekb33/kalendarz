@@ -52,7 +52,7 @@ require_once $rootDir . '/Ustawienia_Tools/edycja_wpisu_kalendarz_calendar_edit.
 <meta charset="UTF-8">
 <title>Calendar</title>
 <!-- CSS -->
-<link rel="stylesheet" href="<?= $basePath ?>style/style.css">
+<link rel="stylesheet" href="<?= $basePath ?>style/style.css?v=<?= filemtime($rootDir . '/style/style.css') ?>">
 <link rel="stylesheet" href="<?= $basePath ?>style/powitanie.css">
 <link rel="stylesheet" href="../style/style.php">
 <!-- JS -->

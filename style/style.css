@@ -53,7 +53,7 @@ td .add { display:block; margin-top:5px; font-size:0.8em; text-decoration:none; 
 .lang-switch a {
     transition: background 0.2s, box-shadow 0.2s;
 }
-td.day { background:#fff; }
+table.calendar td { background:#fff; }
 td.day.weekend { background:#edeff1; }       /* weekend jasnoszary */
 td.day.has-event { background:#d0ebff; }    /* dzień z wydarzeniem jasnoniebieski */
 td.day.weekend.has-event { background:#a8d0ff;} /* weekend z wydarzeniem trochę ciemniejszy niebieski */
