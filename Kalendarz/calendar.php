@@ -110,7 +110,12 @@ require_once $rootDir . '/Ustawienia_Tools/edycja_wpisu_kalendarz_calendar_edit.
 </tr>
 <tr>
 <?php
-for($i=1;$i<$startDay;$i++) echo "<td></td>";
+// Wypełnianie pustych pól dniami z poprzedniego miesiąca
+$daysInPrevMonth = date('t', mktime(0, 0, 0, $prevMonth, 1, $prevYear));
+for($i=1; $i<$startDay; $i++) {
+    $prevDayNum = $daysInPrevMonth - ($startDay - 1) + $i;
+    echo "<td class='day other-month'>$prevDayNum</td>";
+}
 
 for($day=1;$day<=$daysInMonth;$day++){
     if((($day+$startDay-1)%7)==1 && $day!=1) echo "</tr><tr>";

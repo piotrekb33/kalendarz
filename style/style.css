@@ -54,6 +54,10 @@ td .add { display:block; margin-top:5px; font-size:0.8em; text-decoration:none; 
     transition: background 0.2s, box-shadow 0.2s;
 }
 table.calendar td { background:#fff; }
+td.day.other-month {
+    background: #f4f4f4;
+    color: #bbb;
+}
 td.day.weekend { background:#edeff1; }       /* weekend jasnoszary */
 td.day.has-event { background:#d0ebff; }    /* dzień z wydarzeniem jasnoniebieski */
 td.day.weekend.has-event { background:#a8d0ff;} /* weekend z wydarzeniem trochę ciemniejszy niebieski */
