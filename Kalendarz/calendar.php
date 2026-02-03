@@ -110,13 +110,15 @@ require_once $rootDir . '/Ustawienia_Tools/edycja_wpisu_kalendarz_calendar_edit.
 </tr>
 <tr>
 <?php
-// Wypełnianie pustych pól dniami z poprzedniego miesiąca
+
+// 1️⃣ Wypełnianie pustych pól dniami z poprzedniego miesiąca
 $daysInPrevMonth = date('t', mktime(0, 0, 0, $prevMonth, 1, $prevYear));
 for($i=1; $i<$startDay; $i++) {
     $prevDayNum = $daysInPrevMonth - ($startDay - 1) + $i;
     echo "<td class='day other-month'>$prevDayNum</td>";
 }
 
+// 2️⃣ Wypełnianie dni bieżącego miesiąca
 for($day=1;$day<=$daysInMonth;$day++){
     if((($day+$startDay-1)%7)==1 && $day!=1) echo "</tr><tr>";
     $date = sprintf("%04d-%02d-%02d",$year,$month,$day);
@@ -174,6 +176,14 @@ for($day=1;$day<=$daysInMonth;$day++){
     }
 
     echo "</td>";
+}
+
+// 3️⃣ Wypełnianie pustych pól dniami z następnego miesiąca
+$lastDayWeek = ($startDay + $daysInMonth - 1) % 7;
+if($lastDayWeek != 0) {
+    for($i=1; $i <= 7 - $lastDayWeek; $i++) {
+        echo "<td class='day other-month'>$i</td>";
+    }
 }
 ?>
 </tr>
