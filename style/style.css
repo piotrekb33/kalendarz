@@ -123,7 +123,25 @@ body.calendar-page {
     border-color: #ffd600;
 }
 body { font-family: Arial, sans-serif; margin: 20px; /*background: #81f8c8;*/ }
-h2 { text-align:center; }
+h2 {
+    text-align: center;
+    font-size: 3em; /* Powiększenie */
+    font-weight: bold;
+    color: rgb(215, 240, 191); /* Kolor tekstu */
+    letter-spacing: 1px;
+    /* Animacja i obrys (stroke) */
+    animation: decorative-header 5s ease-in-out infinite;
+    text-shadow:
+        -1.5px -1.5px 0 #000,
+         1.5px -1.5px 0 #000,
+        -1.5px  1.5px 0 #000,
+         1.5px  1.5px 0 #000; /* Czarny obrys */
+}
+
+@keyframes decorative-header {
+    0%, 100% { text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000, 0 0 15px rgba(255,255,100,0.7); }
+    50%      { text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000, 0 0 25px rgba(100,200,255,0.9); }
+}
 .nav { text-align:center; margin-bottom:10px; }
 table.calendar { width:100%; border-collapse:collapse; }
 table.calendar th, table.calendar td { border:1px solid #ccc; padding:5px; text-align:left; vertical-align:top; min-height:80px; }
